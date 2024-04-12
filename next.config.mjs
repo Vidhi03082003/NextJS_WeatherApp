@@ -1,4 +1,18 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {};
+// next.config.mjs
 
-export default nextConfig;
+
+const config = {
+  env: {
+    WEATHER_KEY: process.env.WEATHER_KEY,
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'openweathermap.org'
+      },
+    ],
+  },
+};
+
+export default config;
