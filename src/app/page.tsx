@@ -100,7 +100,8 @@ export default function Home() {
   const { isPending, error, data,refetch } = useQuery<WeatherApiResponse>({
     queryKey: ['repoData'],
     queryFn: async () => {
-      const { data } = await axios.get(`https://api.openweathermap.org/data/2.5/forecast?q=${place}&appid=${process.env.WEATHER_KEY}&cnt=56`);
+      // const { data } = await axios.get(`https://api.openweathermap.org/data/2.5/forecast?q=${place}&appid=${process.env.WEATHER_KEY}&cnt=56`);
+      const { data } = await axios.get(`https://api.openweathermap.org/data/2.5/forecast?q=${place}&appid=9cecd26c9fca083a86128e5994e7d9f7&cnt=56`);
       return data;
     }
   })

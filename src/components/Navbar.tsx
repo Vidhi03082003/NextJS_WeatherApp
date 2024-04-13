@@ -74,7 +74,7 @@ export default function Navbar(props: Props) {
           const {latitude,longitude}=position.coords;
           try{
             const response=await axios.get(
-              `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${process.env.WEATHER_KEY}`
+              `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=9cecd26c9fca083a86128e5994e7d9f7`
             )
             setPlace(response.data.name)
           }catch(error){}
