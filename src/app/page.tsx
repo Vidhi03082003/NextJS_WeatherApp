@@ -97,7 +97,7 @@ interface WeatherApiResponse {
 export default function Home() {
   const [place, setPlace] = useAtom(placeAtom);
 
-  const { isPending, error, data,refetch } = useQuery<MainWeatherData>({
+  const { isPending, error, data,refetch } = useQuery<WeatherApiResponse>({
     queryKey: ['repoData'],
     queryFn: async () => {
       const { data } = await axios.get(`https://api.openweathermap.org/data/2.5/forecast?q=${place}&appid=${process.env.WEATHER_KEY}&cnt=56`);
@@ -159,20 +159,20 @@ export default function Home() {
             <Container className="gap-10 px-6 items-center">
               <div className="flex flex-col px-4">
                 <span className="text-5xl">
-                  {convertKelvinToCelcius(firstData?.main.temp)}&deg;
+                  {convertKelvinToCelcius(firstData?.main?.temp ?? 0)}&deg;
                 </span>
                 <p className="text-xs spaxe-x-1 whitespace-nowrap">
                   <span>Feels like</span>
                   <span>
-                    {convertKelvinToCelcius(firstData?.main.temp)}&deg;
+                    {convertKelvinToCelcius(firstData?.main?.temp ?? 0)}&deg;
                   </span>
                 </p>
                 <p className="text-xs space-x-2">
                   <span>
-                    {convertKelvinToCelcius(firstData?.main.temp_min)}&deg;&darr;
+                    {convertKelvinToCelcius(firstData?.main?.temp_min ?? 0)}&deg;&darr;
                   </span>
                   <span>
-                    {convertKelvinToCelcius(firstData?.main.temp_max)}&deg;&uarr;
+                    {convertKelvinToCelcius(firstData?.main?.temp_max ?? 0)}&deg;&uarr;
                   </span>
                 </p>
               </div>
@@ -193,11 +193,12 @@ export default function Home() {
           </div>
           <div className="flex gap-4">
             <Container className="w-fit justify-center flex-col px-4 items-center">
-              <p className="capitalize text-center">{firstData.weather[0].description}</p>
-              <WeatherIcon iconName={getDayOrNightIcon(firstData.weather[0].icon, firstData.dt_txt)} />
+              <p className="capitalize text-center">{firstData?.weather[0].description}</p>
+              <WeatherIcon iconName={getDayOrNightIcon(firstData?.weather[0]?.icon ?? "", firstData?.dt_txt ?? "")} />
+
             </Container>
             <Container className="px-6 gap-4 justify-between overflow-x-auto">
-              <WeatherDetails visability={mToKm(firstData?.visability ?? 10000)} airPressure={`${firstData?.main.pressure} hPa`} humidity={`${firstData?.main.humidity}%`} sunrise={format(fromUnixTime(data?.city.sunrise ??
+              <WeatherDetails visability={mToKm(firstData?.visibility ?? 10000)} airPressure={`${firstData?.main.pressure} hPa`} humidity={`${firstData?.main.humidity}%`} sunrise={format(fromUnixTime(data?.city.sunrise ??
                 1712881731), "H:mm")} sunset={format(fromUnixTime(data?.city.sunset ??
                   1712927787), "H:mm")} windSpeed={convertWindSpeed(firstData?.wind.speed ?? 1.64)}/>
             </Container>
@@ -215,7 +216,7 @@ export default function Home() {
                   temp={d?.main.temp ?? 0}
                   temp_max={d?.main.temp_max ?? 0}
                   temp_min={d?.main.temp_min ?? 0}
-                  visability={mToKm(d?.visability ?? 10000)} 
+                  visability={mToKm(d?.visibility ?? 10000)} 
                   airPressure={`${d?.main.pressure} hPa`} 
                   humidity={`${d?.main.humidity}%`} 
                   sunrise={format(fromUnixTime(data?.city.sunrise ??
